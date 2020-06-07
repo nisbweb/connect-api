@@ -1,0 +1,393 @@
+swagger: '2.0'
+info:
+  description: >-
+    This is the nisb connect api server.  github project at
+    [connect-api](https://github.com/nisbweb/connect-api)
+  version: 1.0.0
+  title: NISB connect-api
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    email: nisbweb@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: connect.api.nisb.in
+basePath: /v1
+tags:
+  - name: topics
+    description: Everything about topics for nisb connect
+  - name: posts
+    description: About Posts in topics
+  - name: comments
+    description: About comments on posts
+  - name: votes
+    description: About votes on posts
+schemes:
+  - https
+  - http
+paths:
+  /topics:
+    post:
+      tags:
+        - topics
+      summary: Add a new topic
+      description: ''
+      operationId: views.topics.add_topic
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Topic details to be added
+          required: true
+          schema:
+            $ref: '#/definitions/Topic'
+      responses:
+        '200':
+          description: Topic has been added
+        '405':
+          description: Invalid input
+    get:
+      tags:
+        - topics
+      summary: Get a list of topics
+      description: ''
+      operationId: views.topics.get_topics
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: user
+          description: Filter Topics by user
+          required: false
+          type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Topic'
+        '400':
+          description: Bad Request
+  '/topics/{topicID}':
+    get:
+      tags:
+        - topics
+      summary: get a topic by ID
+      operationId: views.topics.get_topic
+      produces:
+        - application/json
+      parameters:
+        - name: topicID
+          in: path
+          description: ID of topic
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Topic'
+        '404':
+          description: topic was not found
+    put:
+      tags:
+        - topics
+      summary: update a topic
+      operationId: views.topics.update_topic
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: topicID
+          in: path
+          description: ID of topic
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Topic details to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/Topic'
+      responses:
+        '200':
+          description: successful operation
+        '404':
+          description: topic was not found
+    delete:
+      tags:
+        - topics
+      summary: delete a topic and associated resources
+      operationId: views.topics.delete_topic
+      produces:
+        - application/json
+      parameters:
+        - name: topicID
+          in: path
+          description: ID of topic
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '404':
+          description: topic was not found
+  /posts:
+    get:
+      tags:
+        - posts
+      summary: Finds all posts by topic
+      description: Get a list of posts for a particular topic ID
+      operationId: views.posts.get_posts
+      produces:
+        - application/json
+      parameters:
+        - name: topicID
+          in: query
+          description: Topic ID for filtering posts
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Post'
+    post:
+      tags:
+        - posts
+      summary: Add a new post
+      description: ''
+      operationId: views.posts.add_post
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Post details to be added
+          required: true
+          schema:
+            $ref: '#/definitions/Post'
+      responses:
+        '200':
+          description: Post has been added
+        '405':
+          description: Invalid input
+  '/posts/{postID}':
+    get:
+      tags:
+        - posts
+      summary: get a post by ID
+      operationId: views.posts.get_post
+      produces:
+        - application/json
+      parameters:
+        - name: postID
+          in: path
+          description: ID of post
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Post'
+        '404':
+          description: post was not found
+    put:
+      tags:
+        - posts
+      summary: update a post
+      operationId: views.posts.update_post
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: postID
+          in: path
+          description: ID of post
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Post details to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/Post'
+      responses:
+        '200':
+          description: successful operation
+        '404':
+          description: post was not found
+    delete:
+      tags:
+        - posts
+      summary: delete a post and associated resources
+      operationId: views.posts.delete_post
+      produces:
+        - application/json
+      parameters:
+        - name: postID
+          in: path
+          description: ID of post
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '404':
+          description: post was not found
+  /comments:
+    get:
+      tags:
+        - comments
+      summary: Finds all comments of a post
+      description: Get a list of comments for a particular post
+      operationId: views.comments.get_comments
+      produces:
+        - application/json
+      parameters:
+        - name: postID
+          in: query
+          description: Post ID for getting comments
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Comment'
+    post:
+      tags:
+        - comments
+      summary: Add a new comment
+      description: ''
+      operationId: views.comments.add_comment
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Comment details to be added
+          required: true
+          schema:
+            $ref: '#/definitions/Comment'
+      responses:
+        '200':
+          description: Comment has been added
+        '405':
+          description: Invalid input
+  '/comments/{commentID}':
+    put:
+      tags:
+        - comments
+      summary: update a comment
+      operationId: views.comments.update_comment
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: commentID
+          in: path
+          description: ID of comment
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Comment details to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/Comment'
+      responses:
+        '200':
+          description: successful operation
+        '404':
+          description: Comment was not found
+    delete:
+      tags:
+        - comments
+      summary: 'delete a comment and make it [deleted]'
+      operationId: views.comments.delete_comment
+      produces:
+        - application/json
+      parameters:
+        - name: commentID
+          in: path
+          description: ID of comment
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '404':
+          description: Comment was not found
+definitions:
+  Topic:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      created_by:
+        type: string
+      created_at:
+        type: string
+      updated_at:
+        type: string
+  Post:
+    type: object
+    properties:
+      id:
+        type: string
+      title:
+        type: string
+      summary:
+        type: string
+      body:
+        type: string
+      save_as_draft:
+        type: boolean
+        default: false
+      created_by:
+        type: string
+      created_at:
+        type: string
+      updated_at:
+        type: string
+  Comment:
+    type: object
+    properties:
+      id:
+        type: string
+      body:
+        type: string
+      post_id:
+        type: string
+      reply_of:
+        type: string
+      created_by:
+        type: string
+      created_at:
+        type: string
+      updated_at:
+        type: string
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
