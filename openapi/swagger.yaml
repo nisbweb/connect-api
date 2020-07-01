@@ -32,7 +32,7 @@ paths:
         - topics
       summary: Add a new topic
       description: ''
-      operationId: views.topics.add_topic
+      operationId: views.add_topic
       consumes:
         - application/json
       produces:
@@ -54,7 +54,7 @@ paths:
         - topics
       summary: Get a list of topics
       description: ''
-      operationId: views.topics.get_topics
+      operationId: views.get_topics
       consumes:
         - application/json
       produces:
@@ -79,7 +79,7 @@ paths:
       tags:
         - topics
       summary: get a topic by ID
-      operationId: views.topics.get_topic
+      operationId: views.get_topic
       produces:
         - application/json
       parameters:
@@ -99,7 +99,7 @@ paths:
       tags:
         - topics
       summary: update a topic
-      operationId: views.topics.update_topic
+      operationId: views.update_topic
       consumes:
         - application/json
       produces:
@@ -125,7 +125,7 @@ paths:
       tags:
         - topics
       summary: delete a topic and associated resources
-      operationId: views.topics.delete_topic
+      operationId: views.delete_topic
       produces:
         - application/json
       parameters:
@@ -145,7 +145,7 @@ paths:
         - posts
       summary: Finds all posts by topic
       description: Get a list of posts for a particular topic ID
-      operationId: views.posts.get_posts
+      operationId: views.get_posts
       produces:
         - application/json
       parameters:
@@ -166,7 +166,7 @@ paths:
         - posts
       summary: Add a new post
       description: ''
-      operationId: views.posts.add_post
+      operationId: views.add_post
       consumes:
         - application/json
       produces:
@@ -188,7 +188,7 @@ paths:
       tags:
         - posts
       summary: get a post by ID
-      operationId: views.posts.get_post
+      operationId: views.get_post
       produces:
         - application/json
       parameters:
@@ -208,7 +208,7 @@ paths:
       tags:
         - posts
       summary: update a post
-      operationId: views.posts.update_post
+      operationId: views.update_post
       consumes:
         - application/json
       produces:
@@ -234,7 +234,7 @@ paths:
       tags:
         - posts
       summary: delete a post and associated resources
-      operationId: views.posts.delete_post
+      operationId: views.delete_post
       produces:
         - application/json
       parameters:
@@ -254,7 +254,7 @@ paths:
         - comments
       summary: Finds all comments of a post
       description: Get a list of comments for a particular post
-      operationId: views.comments.get_comments
+      operationId: views.get_comments
       produces:
         - application/json
       parameters:
@@ -275,7 +275,7 @@ paths:
         - comments
       summary: Add a new comment
       description: ''
-      operationId: views.comments.add_comment
+      operationId: views.add_comment
       consumes:
         - application/json
       produces:
@@ -297,7 +297,7 @@ paths:
       tags:
         - comments
       summary: update a comment
-      operationId: views.comments.update_comment
+      operationId: views.update_comment
       consumes:
         - application/json
       produces:
@@ -323,7 +323,7 @@ paths:
       tags:
         - comments
       summary: 'delete a comment and make it [deleted]'
-      operationId: views.comments.delete_comment
+      operationId: views.delete_comment
       produces:
         - application/json
       parameters:

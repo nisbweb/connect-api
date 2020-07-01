@@ -13,8 +13,9 @@ API Server for NISB Connect
 
 ## Swagger Spec:
 Inside openapi/swagger.yaml
+Swagger UI - `http://localhost:8080/v1/ui/
 
-# Dev Guide
+## Dev Guide
 - The views are inside `views` folder.
 - There is direct mapping of swagger spec and view functions
 - We use mongo DB
