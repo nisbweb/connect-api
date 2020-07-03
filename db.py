@@ -91,6 +91,7 @@ def delete_post(id):
 
 def update_post(post_dict):
     id = post_dict["id"]
+    post_dict["updated_at"] = datetime.datetime.now()
     return db.posts.update_one({"id": id}, {"$set": post_dict})
 
 
@@ -112,7 +113,8 @@ def get_comments(post_id=None, reply_of=None):
 
 def get_comment(id):
     comment = db.comments.find_one({"id": id})
-    comment.pop("_id")
+    if comment:
+        comment.pop("_id")
     return comment
 
 
@@ -131,7 +133,8 @@ def delete_comment(id):
 
 def update_comment(comment_dict):
     id = comment_dict["id"]
-    return db.comments.find_one_and_replace({"id": id}, comment_dict)
+    comment_dict["updated_at"] = datetime.datetime.now()
+    return db.comments.update_one({"id": id}, {"$set": comment_dict})
 
 
 if __name__ == "__main__":

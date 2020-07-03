@@ -43,10 +43,8 @@ def delete_topic(topicID):  # noqa: E501
     :rtype: None
     """
     if db.delete_topic(topicID).deleted_count == 1:
-        return {
-            "status": "ok"
-        }
-    return get_error("could not delete")
+        return {"status": "ok"}
+    return get_error("topic could not be deleted"), 404
 
 
 def get_topic(topicID):  # noqa: E501
@@ -63,10 +61,7 @@ def get_topic(topicID):  # noqa: E501
     if topic:
         return topic
     else:
-        return {
-            "status": "error",
-            "error": "The topic was not found"
-        }, 404
+        return get_error("the topic was not found"), 404
 
 
 def get_topics(user=None):  # noqa: E501
@@ -112,7 +107,6 @@ def add_post(body):
     """
     if connexion.request.is_json:
         body = connexion.request.get_json()
-        
     return {
         "id": db.add_post(body)
     }
@@ -125,8 +119,9 @@ def delete_post(postID):
 
     :rtype: None
     """
-    db.delete_post(postID)
-    return 'do some magic!'
+    if db.delete_post(postID).deleted_count == 1:
+        return {"status": "ok"}
+    return get_error("post could not be deleted"), 404
 
 
 def get_post(postID):
@@ -140,10 +135,7 @@ def get_post(postID):
     if post:
         return post
     else:
-        return {
-            "status": "error",
-            "error": "The post was not found"
-        }, 404
+        return get_error("the post was not found"), 404
 
 
 def get_posts(topicID):
@@ -172,8 +164,9 @@ def update_post(postID, body):
     if connexion.request.is_json:
         body = connexion.request.get_json()
         body["id"] = postID
-        db.update_post(body)
-    return 'do some magic!'
+        if db.update_post(body).modified_count == 1:
+            return {"status": "ok"}
+    return get_error("post could not be updated")
 
 
 def add_comment(body):  # noqa: E501
@@ -188,8 +181,9 @@ def add_comment(body):  # noqa: E501
     """
     if connexion.request.is_json:
         body = connexion.request.get_json()
-        db.add_comment(body)
-    return 'do some magic!'
+    return {
+        "id": db.add_comment(body)
+    }
 
 
 def delete_comment(commentID):  # noqa: E501
@@ -202,8 +196,9 @@ def delete_comment(commentID):  # noqa: E501
 
     :rtype: None
     """
-    db.delete_comment(commentID)
-    return 'do some magic!'
+    if db.delete_comment(commentID).deleted_count == 1:
+        return {"status": "ok"}
+    return get_error("could not delete comment"), 404
 
 
 def get_comments(postID):  # noqa: E501
@@ -235,5 +230,6 @@ def update_comment(commentID, body):  # noqa: E501
     if connexion.request.is_json:
         body = connexion.request.get_json()
         body["id"] = commentID
-        db.update_comment(body)
-    return 'do some magic!'
+        if db.update_comment(body).modified_count == 1:
+            return {"status": "ok"}
+    return get_error("comment could not be updated")
