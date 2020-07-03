@@ -61,9 +61,18 @@ def get_posts(after=None):
     return posts
 
 
+def get_posts_by_topic(topicID):
+    posts = []
+    for e in db.posts.find({"topic": topicID}):
+        e.pop("_id")
+        posts.append(e)
+    return posts
+
+
 def get_post(id):
     post = db.posts.find_one({"id": id})
-    post.pop("_id")
+    if post:
+        post.pop("_id")
     return post
 
 
@@ -82,7 +91,7 @@ def delete_post(id):
 
 def update_post(post_dict):
     id = post_dict["id"]
-    return db.posts.find_one_and_replace({"id": id}, post_dict)
+    return db.posts.update_one({"id": id}, {"$set": post_dict})
 
 
 # -------------------------------------------------------------

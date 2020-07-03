@@ -362,6 +362,8 @@ definitions:
         type: string
       body:
         type: string
+      topic:
+        type: string
       save_as_draft:
         type: boolean
         default: false

@@ -60,7 +60,13 @@ def get_topic(topicID):  # noqa: E501
     :rtype: Topic
     """
     topic = db.get_topic(topicID)
-    return topic
+    if topic:
+        return topic
+    else:
+        return {
+            "status": "error",
+            "error": "The topic was not found"
+        }, 404
 
 
 def get_topics(user=None):  # noqa: E501
@@ -106,8 +112,10 @@ def add_post(body):
     """
     if connexion.request.is_json:
         body = connexion.request.get_json()
-        db.add_post(body)
-    return 'do some magic!'
+        
+    return {
+        "id": db.add_post(body)
+    }
 
 
 def delete_post(postID):
@@ -129,7 +137,13 @@ def get_post(postID):
     :rtype: Post
     """
     post = db.get_post(postID)
-    return post
+    if post:
+        return post
+    else:
+        return {
+            "status": "error",
+            "error": "The post was not found"
+        }, 404
 
 
 def get_posts(topicID):
@@ -142,7 +156,7 @@ def get_posts(topicID):
 
     :rtype: List[Post]
     """
-    posts = db.get_posts()
+    posts = db.get_posts_by_topic(topicID)
     return posts
 
 
