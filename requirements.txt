@@ -1,3 +1,5 @@
 connexion[swagger-ui]
 pymongo
 dnspython
+gunicorn
+flask-cors
